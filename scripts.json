@@ -1,0 +1,9 @@
+{
+	"name": "Skin",
+	"author": "Tatan",
+	"website": "google.com",
+	"resources": {
+		"esx-org/skinchanger": "1.0.1"
+	},
+	"folder": {}
+}

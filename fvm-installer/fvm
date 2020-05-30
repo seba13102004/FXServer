@@ -1,0 +1,222 @@
+#!/usr/bin/env node
+
+const request = require('superagent');
+const chalk = require('chalk');
+const fs = require('fs');
+const tools = require('./tools');
+const ConfigFile = require('./ConfigFileClass');
+const co = require('co');
+const prompt = require('co-prompt');
+
+
+const pjson = require('./package.json');
+console.log("\n");
+console.log("===========================");
+console.log("FiveM Installer v"+pjson.version);
+console.log("Created by Quentin Laffont");
+console.log("https://qlaffont.com");
+console.log("===========================");
+console.log("\n");
+
+
+const latestVersion = require('latest-version');
+
+latestVersion('fvm-installer').then((lastversion) => {
+    if (lastversion != pjson.version){
+      console.log("New Version "+chalk.red("v"+pjson.version)+ " -> "+chalk.green("v"+lastversion));
+      console.log("Please run:");
+      console.log(chalk.green("npm update -g fvm-installer"));
+      console.log("\n");
+    }
+
+
+    const arguments = process.argv;
+    var save = false;
+    var specifiedfolder = "";
+
+    //Helper
+    if(arguments.length == 2){
+      console.log("Usage: fvm <args>");
+      console.log("\n");
+      console.log("Arguments:\n");
+      console.log("  init  \t\t\t\t\t\t\t Initialise FiveM Installer directory");
+      console.log("  install (--save) (--folder=<folder_name>) <package_name> \t Install Github Package (Option Save: Save in scripts.json)");
+      console.log("  update \t\t\t\t\t\t\t Check if any packages can be upgraded");
+      console.log("  update (--save) <package_name> \t\t\t\t Update Package (Option Save: Save in scripts.json)");
+      console.log("  delete (--save) <package_name> \t\t\t\t Delete Package (Option Save: Save in scripts.json)");
+      console.log("\n");
+      console.log(chalk.cyan("Package name format is: ") + chalk.bold.cyan("user/repo") + chalk.cyan(" (Source GitHub). Example: fivemtools/ft_ui"));
+    }else {
+      var operation = arguments[2];
+
+      switch (operation) {
+        case "install":
+          if(arguments[3]){
+
+            var dataConfigFile = new ConfigFile(true);
+
+
+            const resourcestoinstall = arguments;
+            resourcestoinstall.splice(0, 3);
+
+            promiseArray = [];
+
+            resourcestoinstall.forEach(function(resource){
+              if(resource == "--save"){
+                save = true;
+              }
+
+              if(resource.substring(0, 9) == "--folder="){
+                specifiedfolder = resource.split("--folder=")[1];
+              }
+            });
+
+            //Can give multiple resources to install
+            resourcestoinstall.forEach((resource) => {
+              if(resource != "--save" && resource.substring(0, 9) != "--folder="){
+                if(tools.check_resource_format(resource)){
+                  promiseArray.push(tools.download_resource(resource, dataConfigFile, save, specifiedfolder));
+                }else{
+                  console.log(chalk.red("Error: Resource not found! Please provide a resource name in the correct format: user/repository or user/repository@version"));
+                  console.log("\n");
+                  process.exit(0);
+                }
+              }
+            });
+
+            Promise.all(promiseArray).then((values) => {
+              console.log("\n");
+
+              console.log(chalk.green("Installation successful"));
+            }).catch((data) => {
+              process.exit(0);
+            });
+
+          }else{
+            //Check if existing file and if exist install packages
+            dataConfigFile = new ConfigFile(true);
+
+            promiseArray = [];
+
+            Object.keys(dataConfigFile.resources).forEach((key) => {
+                const resource = key + "@" +dataConfigFile.resources[key];
+                if(tools.check_resource_format(resource)){
+                  promiseArray.push(tools.download_resource(resource, dataConfigFile, save, dataConfigFile.folder[key]));
+                }
+              }
+            );
+
+            Promise.all(promiseArray).then((values) => {
+              console.log("\n");
+
+              console.log(chalk.green("Installation successful!"));
+            }).catch((data) => {
+              process.exit(0);
+            });
+          }
+          break;
+
+        case "update":
+          dataConfigFile = new ConfigFile(true);
+
+          if(arguments[3]){
+
+            const resourcestoupdate = arguments;
+            resourcestoupdate.splice(0, 3);
+
+            promiseArray = [];
+
+            resourcestoupdate.forEach((resource) => {
+              if(resource == "--save"){
+                save = true;
+              }
+            });
+
+            //Can give multiple resources to install
+            resourcestoupdate.forEach((resource) => {
+              if(resource != "--save"){
+                if(tools.check_resource_format(resource)){
+                  promiseArray.push(tools.update_resource(resource, dataConfigFile.resources[resource], dataConfigFile, save));
+                }else{
+                  console.log(chalk.red("Error: Resource not found! Please provide a resource name in the correct format: user/repository or user/repository@version"));
+                  console.log("\n");
+                  process.exit(0);
+                }
+              }
+            });
+
+            Promise.all(promiseArray).then((values) => {
+              console.log(chalk.green("Update successful!"));
+            }).catch(function(data) {
+              process.exit(0);
+            });
+          } else {
+            console.log("This package can be upgraded: "+"\n");
+
+            promiseArray = [];
+
+            Object.keys(dataConfigFile.resources).forEach((key) => {
+              promiseArray.push(tools.check_update_resource(key, dataConfigFile.resources[key]));
+            });
+
+            Promise.all(promiseArray).then((values) => {
+              console.log("To upgrade packages, do " + chalk.green("fvm update <package_name>"));
+            }).catch((data) => {
+              process.exit(0);
+            });
+          }
+
+          break;
+
+        case "init":
+          console.log("Initialisation of FiveM Installer directory")
+          console.log("\n");
+          dataConfigFile = new ConfigFile(false);
+
+          co(function *() {
+            const nameConfig = yield prompt('Name: ');
+            const authorConfig = yield prompt('Author: ');
+            const websiteConfig = yield prompt('Website: ');
+            dataConfigFile.initConfigFile(nameConfig, authorConfig, websiteConfig);
+            console.log("\n");
+            console.log(chalk.green("Initialisation of FiveM Installer directory finish ! You can now use fvm installer."));
+            process.exit(0);
+          });
+          break;
+
+        case "remove":
+          if(arguments[3]){
+            dataConfigFile = new ConfigFile(true);
+            const resourcestodelete = arguments;
+            resourcestodelete.splice(0, 3);
+
+            promiseArray = [];
+
+            resourcestodelete.forEach((resource) => {
+              if(resource == "--save"){
+                save = true;
+              }
+            });
+
+            //Can give multiple resources to install
+            resourcestodelete.forEach(function(resource){
+              if(resource != "--save"){
+                if(tools.check_resource_format(resource)){
+                  tools.deleteresource(resource, save, dataConfigFile)
+                }else{
+                  console.log(chalk.red("Error: Resource not found! Please provide a resource name in the correct format: user/repository or user/repository@version"));
+                  console.log("\n");
+                  process.exit(0);
+                }
+              }
+            });
+          }else{
+            console.log(chalk.red("Error: Please provide a ressource name to remove"));
+          }
+          break;
+        default:
+          console.log(chalk.red("Error: Please provide valid arguments: install, update, init"));
+      }
+    }
+
+});

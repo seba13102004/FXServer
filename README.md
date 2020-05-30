@@ -1,199 +1,31 @@
-﻿# FiveM
+# cfx-server-data
+_The data repository for Cfx.re servers_
 
-# Information ( RolePlay by FXServer )
-- Script Requirements
-  - [ ] CarCleanUp
-  - [x] esx_addoninventory
-  - [ ] BMWM3GTR
-  - [x] fivem
-  - [x] esx_datastore
-  - [ ] afkkick
-  - [x] akina
-  - [x] mysql-async
-  - [ ] joblisting
-  - [ ] doomsday_vehicles
-  - [ ] locksystem
-  - [x] ban-async
-  - [ ] blips
-  - [ ] policegs350
-  - [x] esx_dockshop
-  - [ ] bob74_ipl
-  - [ ] carhud
-  - [ ] hypr9boost
-  - [ ] chasse
-  - [ ] sandyalive
-  - [ ] streetLabel
-  - [ ] co_basejump
-  - [ ] eden_demarches
-  - [ ] co_locvelo
-  - [ ] bmwM4F82
-  - [x] cron
-  - [ ] custom
-  - [x] esx_ambulancejob
-  - [ ] RealisticVehicleFailure
-  - [ ] deleteveh
-  - [ ] DriftCounter
-  - [x] essentialmode
-  - [x] esx_cinema
-  - [ ] Porsche918
-  - [ ] mecaheli
-  - [x] es_extended
-  - [ ] logs
-  - [ ] colorado
-  - [ ] grapeseedalive
-  - [ ] fbiset
-  - [ ] zentenario
-  - [x] fivem-map-hipster
-  - [ ] hospital
-  - [x] esx_basicneeds
-  - [ ] gang
-  - [ ] gtr
-  - [ ] golf
-  - [x] esx_taxijob
-  - [ ] hypr9stun
-  - [x] instance
-  - [ ] interactsound
-  - [x] esx_drugs
-  - [x] LoadingScreen
-  - [x] esx_vehicleshop
-  - [ ] rolesFX
-  - [ ] GSXR1000
-  - [ ] map
-  - [ ] CivicType-R
-  - [ ] name
-  - [ ] boxing
-  - [ ] Trains
-  - [x] nb_menuperso
-  - [ ] nogodmode
-  - [ ] r8ppi
-  - [ ] object-loader
-  - [ ] pack1
-  - [ ] PoliceVehiclesWeaponDeleter
-  - [ ] ptt
-  - [ ] pvp
-  - [ ] borderwall
-  - [ ] rboat
-  - [ ] vision
-  - [x] spawnmanager
-  - [x] SexySpeedometer
-  - [ ] show
-  - [ ] sirencontrols
-  - [ ] BugattiEB110
-  - [ ] skinchanger
-  - [x] esx_holdupbank
-  - [ ] esx_plasticsurgery
-  - [x] TrainSportation
-  - [ ] vVoice
-  - [ ] patch
-  - [ ] vinewoodalive
-  - [ ] vk_handsup
-  - [ ] HuracanSpyder
-  - [ ] vSync
-  - [ ] BenzSilver
-  - [ ] Bmw440i
-  - [ ] bmw750li
-  - [ ] bmwE36
-  - [ ] BmwE65
-  - [ ] bmwI8
-  - [ ] bmwM235
-  - [ ] BmwM4
-  - [ ] BmwM5E60
-  - [x] esx_jobs
-  - [ ] BmwM6F13
-  - [x] esx_barbershop
-  - [ ] bmwX5
-  - [ ] BugattiVeyron
-  - [ ] 370z
-  - [ ] batman
-  - [ ] bentaxi
-  - [ ] bmws
-  - [ ] charge8
-  - [ ] dmax
-  - [ ] Ducati1199
-  - [ ] f1
-  - [ ] fast
-  - [x] esx_weashops
-  - [ ] HarleyDavidson
-  - [ ] hilukvigo
-  - [ ] hondamsx
-  - [ ] paleto
-  - [ ] i8
-  - [ ] JaguarC-X75
-  - [ ] Kawasaki-KR150
-  - [ ] LancerEvolution
-  - [ ] ninja
-  - [x] esx_lscustom
-  - [ ] p1
-  - [ ] rmodpagani
-  - [ ] rollarmy
-  - [ ] SkyLineBNR34
-  - [ ] taxi
-  - [ ] veneno
-  - [ ] c7r
-  - [x] esplugin_mysql
-  - [x] es_admin2
-  - [x] es_carwash
-  - [x] esx_accessories
-  - [x] esx_addonaccount
-  - [ ] esx_AdvancedFuel
-  - [x] esx_menu_dialog
-  - [x] esx_atm
-  - [ ] esx_banksecurity
-  - [x] esx_billing
-  - [ ] esx_blanchisseu
-  - [x] esx_clotheshop
-  - [x] esx_dmvschool
-  - [ ] esx_deliveryjob
-  - [x] esx_eden_garage
-  - [ ] esx_garbagejob
-  - [x] esx_holdup
-  - [ ] rmodmustang
-  - [x] esx_identity
-  - [ ] FerrariAperta
-  - [x] esx_jailer
-  - [x] esx_license
-  - [x] baseevents
-  - [ ] esx_mask
-  - [x] esx_mecanojob
-  - [x] esx_menu_default
-  - [x] esx_menu_list
-  - [x] esx_optionalneeds
-  - [x] esx_outlawalert
-  - [x] esx_phone
-  - [x] esx_pizza
-  - [x] esx_policejob
-  - [x] esx_property
-  - [x] ESX_Repairvehicle
-  - [x] esx_service
-  - [x] esx_shops
-  - [x] esx_sit
-  - [x] esx_skin
-  - [x] esx_slotmachine
-  - [x] esx_society
-  - [x] esx_status
-  - [ ] esx_tattoosShops
-  - [x] esx_thief
-  - [ ] chgaming
-  - [x] esx_truckerjob
-  - [x] esx_voice
-  - [ ] ferrari488
-  - [ ] FerrariCalifornia
-  - [ ] fxxk
-  - [ ] FordMustangGT2011
-  - [ ] ims
-  - [ ] Moto
-  - [ ] g65
-  - [x] mapmanager
-  - [ ] bayside
-  - [ ] bridgeman
-  - [ ] sandyairfield
-  - [ ] improve
-  - [ ] CBR1000RR
-  - [ ] ambu
-  - [ ] ambubike
-  - [ ] helimedic
-  - [ ] McLarenpolice
-  - [ ] policeunsurgent
-  - [x] chat
-  - [x] rconlog
-  - [x] scoreboard
+## Usage
+1. Make sure to `git clone`. Don't "Download ZIP", as that'll make it _much_ harder to update to newer versions.
+2. Put custom resources in `resources/[local]/` if you don't want to be affected by any random messups.
+
+### Advanced usage
+You can also consider using the repository as a submodule + symlink for your own Git repository:
+
+**Linux**:
+```
+$ git submodule add https://github.com/citizenfx/cfx-server-data.git vendor/server-data
+$ ln -s vendor/server-data/resources/ 'resources/[base]/'
+```
+
+**Windows**:
+```
+> git submodule add https://github.com/citizenfx/cfx-server-data.git vendor/server-data
+> mklink /d resources\[base] vendor\server-data\resources
+```
+
+## Policy
+You can make pull requests to propose changes that benefit _everyone_. Add new useful resources, change/improve
+existing ones - anything goes, as long as you make sure to:
+
+1. Not break existing users/APIs.
+2. Not change default behavior without a toggle.
+3. Use best practices (convars over config files, native commands wherever possible, etc.)
+
+Modifying or rewriting existing resources in this repository for local use only is _strongly_ discouraged.

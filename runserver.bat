@@ -1,2 +1,3 @@
-cd c:\fivem\
-c:\fivem\run.cmd +exec server.cfg
+cd \resource
+FXServer.exe +exec server.cfg
+pause
